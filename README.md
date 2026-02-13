@@ -46,7 +46,24 @@ langent serve                    # Open http://localhost:8000
 
 ---
 
-## 🛠️ Advanced Setup
+## � Data Workflow: From Workspace to 3D Nebula
+
+Langent automates the complex journey from raw raw files to an interactive 3D knowledge universe.
+
+1.  **Gather Data (Workspace)**: Drop your "data lumps" (PDFs, Markdown notes, CSV spreadsheets, Research papers) into your connected `LANGENT_WORKSPACE` folder.
+2.  **Chunking**: Langent automatically breaks these large files into smaller, semantically meaningful chunks (300-500 tokens).
+3.  **Vectorization (ChromaDB)**: 
+    - Using local embedding models (e.g., `all-MiniLM-L6-v2`), each chunk is transformed into a high-dimensional vector.
+    - These vectors are stored in **ChromaDB** for lightning-fast semantic retrieval.
+4.  **3D Projection**: 
+    - Langent uses advanced dimensionality reduction (UMAP) to project these high-dimensional vectors into a **3D Point Cloud**.
+    - Points that are semantically similar "cluster" together in space, forming the constellations of your knowledge base.
+
+> **Result**: Your messy folder becomes a beautiful, searchable, and navigable 3D cosmic map.
+
+---
+
+## �🛠️ Advanced Setup
 
 ### 1. Connecting to Neo4j (Graph Store)
 To enable the **Knowledge Graph** features (searching relationships, linking entities), you need a Neo4j instance.
