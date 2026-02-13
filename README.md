@@ -90,7 +90,7 @@ Once connected via MCP, you can talk to your workspace as if it's an intelligent
 - **Semantic Search**: 
   > "내 워크스페이스에서 'AI 미래 전략'과 관련된 내용을 네뷸라에서 검색해서 요약해줘."
 - **Graph Insight**:
-  > "내 연구 주제인 '친환경 건축'과 가장 많이 연결된 핵심 키워드들을 그래프로 분석해서 보고서로 만들어줘."
+  > "내 연구 주제인 'AI 에이전트'와 가장 많이 연결된 핵심 키워드들을 그래프로 분석해서 보고서로 만들어줘."
 
 Langent provides the AI with specific tools (`ingest_workspace`, `search_nebula`, `query_graph`) allowing it to act as a 3D Knowledge Librarian.
 
