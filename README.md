@@ -82,6 +82,18 @@ Langent acts as an **MCP (Model Context Protocol)** server, allowing AI agents l
   }
   ```
 
+### 🤖 Using Langent with AI Agents (Antigravity, Claude Code)
+Once connected via MCP, you can talk to your workspace as if it's an intelligent entity.
+
+- **Data Ingestion**: 
+  > "Langent의 mcp 도구를 사용해서 내 워크스페이스에 있는 새로운 문서들을 인덱싱해줘."
+- **Semantic Search**: 
+  > "내 워크스페이스에서 'AI 미래 전략'과 관련된 내용을 네뷸라에서 검색해서 요약해줘."
+- **Graph Insight**:
+  > "이용욱(Alex AI)과 연결된 프로젝트 노드들을 그래프로 분석해서 보고서로 만들어줘."
+
+Langent provides the AI with specific tools (`ingest_workspace`, `search_nebula`, `query_graph`) allowing it to act as a 3D Knowledge Librarian.
+
 ---
 
 ## 🌌 How to use Nebula 3D Visualizer
