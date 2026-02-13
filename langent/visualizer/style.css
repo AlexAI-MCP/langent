@@ -1,0 +1,204 @@
+/* ===================================
+   Langent Nebula — Dark Space Theme
+   =================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    overflow: hidden;
+    font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+    color: #e0e0e0;
+}
+
+#nebula-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+}
+
+/* ─── HUD ─────────────────────────── */
+
+#hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#hud > * {
+    pointer-events: auto;
+}
+
+#hud-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+}
+
+.neon-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #00f0ff, #b366ff, #ff66aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 40px rgba(0, 240, 255, 0.3);
+    letter-spacing: 2px;
+}
+
+#stats {
+    display: flex;
+    gap: 20px;
+}
+
+#stats span {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+/* ─── Search Panel ────────────────── */
+
+#search-panel {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background: rgba(10, 10, 20, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 30px;
+    padding: 8px 12px;
+}
+
+#search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 1rem;
+    width: 360px;
+    padding: 8px 16px;
+}
+
+#search-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+#search-btn, #ingest-btn {
+    background: linear-gradient(135deg, #00f0ff22, #b366ff22);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    color: #00f0ff;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+#search-btn:hover, #ingest-btn:hover {
+    background: linear-gradient(135deg, #00f0ff44, #b366ff44);
+    border-color: rgba(0, 240, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+}
+
+#ingest-btn {
+    color: #b366ff;
+    border-color: rgba(179, 102, 255, 0.2);
+}
+
+#ingest-btn:hover {
+    border-color: rgba(179, 102, 255, 0.5);
+    box-shadow: 0 0 20px rgba(179, 102, 255, 0.15);
+}
+
+/* ─── Info Panel ──────────────────── */
+
+#info-panel {
+    position: absolute;
+    top: 100px;
+    right: 30px;
+    width: 350px;
+    background: rgba(10, 10, 30, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 240, 255, 0.12);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+#info-panel.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(20px);
+}
+
+#info-panel h3 {
+    color: #00f0ff;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+#info-source {
+    color: #b366ff;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+}
+
+#info-preview {
+    color: #ccc;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* ─── Status Bar ──────────────────── */
+
+#status-bar {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    display: flex;
+    gap: 24px;
+    font-size: 0.8rem;
+    color: #555;
+}
+
+#connection-status {
+    color: #00ff88;
+}
+
+/* ─── Scrollbar ───────────────────── */
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,240,255,0.2); border-radius: 4px; }

@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+.venv/
+
+# Langent Data & Config
+.env
+data/
+workspace/
+samples/
+!samples/
+*.json
+!langent/visualizer/*.json
+!pyproject.toml
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# User-specific research/test scripts
+analyze_*.py
+export_map_data.py
+find_car_repair.py
+*.csv
+*.pdf
+*.txt
+!README.md
+!LICENSE
+
+# Agent logs
+.gemini/
+.agent/
+logs/

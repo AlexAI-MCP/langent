@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Langent Nebula — 3D Vector Universe</title>
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        window.onerror = function (msg, url, lineNo, columnNo, error) {
+            const errDiv = document.createElement('div');
+            errDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;background:rgba(255,0,0,0.9);color:white;z-index:9999;padding:10px;font-family:monospace;';
+            errDiv.innerHTML = `<b>Critical Error:</b> ${msg}<br><small>${url} L${lineNo}:${columnNo}</small>`;
+            document.body.appendChild(errDiv);
+            return false;
+        };
+    </script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <!-- HUD Overlay -->
+    <div id="hud">
+        <div id="hud-top">
+            <h1 class="neon-title">🌌 LANGENT NEBULA</h1>
+            <div id="stats">
+                <span id="stat-vectors">0 vectors</span>
+                <span id="stat-nodes">0 nodes</span>
+                <span id="stat-edges">0 edges</span>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div id="search-panel">
+            <input type="text" id="search-input" placeholder="⚡ Search the universe..." />
+            <button id="search-btn" onclick="doSearch()">Search</button>
+            <button id="ingest-btn" onclick="doIngest()">📥 Ingest</button>
+            <button id="link-btn" onclick="doLink()">🔗 Link</button>
+            <button id="map-btn" onclick="location.href='/map.html'">🗺️ Map</button>
+        </div>
+
+        <!-- Info Panel -->
+        <div id="info-panel" class="hidden">
+            <button class="close-btn" onclick="closeInfo()">✕</button>
+            <h3 id="info-title">-</h3>
+            <p id="info-source">-</p>
+            <p id="info-preview">-</p>
+        </div>
+
+        <!-- Status Bar -->
+        <div id="status-bar">
+            <span id="connection-status">● Connecting...</span>
+            <span id="hover-info">Hover over points to explore</span>
+        </div>
+    </div>
+
+    <canvas id="nebula-canvas"></canvas>
+    <script type="module" src="/app.js?v=2.0.2"></script>
+</body>
+
+</html>

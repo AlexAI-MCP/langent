@@ -1,0 +1,36 @@
+# Langent v2 Default Configuration
+version: "2.0"
+name: "Langent"
+
+workspace:
+  watch: true
+  extensions: [".md", ".txt", ".pdf", ".csv", ".json", ".yaml"]
+  ignore: ["node_modules", ".git", "__pycache__", ".env"]
+
+vector_store:
+  provider: chromadb
+  collection: langent_knowledge
+  embedding_model: all-MiniLM-L6-v2
+
+graph_store:
+  provider: neo4j
+  uri: bolt://localhost:7687
+
+rag:
+  chunk_size: 500
+  chunk_overlap: 50
+  min_chunk_size: 50
+  top_k: 5
+
+visualizer:
+  port: 8000
+  theme: nebula
+  point_size: 3.0
+  max_points: 50000
+
+agents:
+  default_team:
+    - indexer
+    - searcher
+    - analyzer
+    - ontologist

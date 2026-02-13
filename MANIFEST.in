@@ -1,0 +1,5 @@
+recursive-include langent/visualizer *
+include README.md
+include LICENSE
+include pyproject.toml
+global-exclude *.py[cod] __pycache__ *.so

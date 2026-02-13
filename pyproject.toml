@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "langent"
+version = "2.0.0"
+description = "RAG Agentic Framework — Workspace → Vector DB → 3D Nebula Visualization → MCP/API"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+authors = [{ name = "AlexAI (이용욱)" }]
+
+dependencies = [
+    # Vector DB
+    "chromadb>=0.5.0",
+    # Graph DB
+    "neo4j>=5.0.0",
+    # LangChain / LangGraph
+    "langchain>=0.3.0",
+    "langgraph>=0.2.0",
+    "langchain-community>=0.3.0",
+    # Embeddings (local, no API key)
+    "sentence-transformers>=2.0.0",
+    # Dimensionality reduction for 3D viz
+    "umap-learn>=0.5.0",
+    # Config
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0.0",
+    # Server
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+    "websockets>=12.0",
+    # MCP
+    "mcp>=1.0.0",
+    # CLI
+    "click>=8.0.0",
+    # Document processing
+    "pypdf>=4.0.0",
+    # Utilities
+    "numpy>=1.24.0",
+    "watchdog>=3.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0", "pytest-asyncio>=0.21.0"]
+
+[project.scripts]
+langent = "langent.server.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["langent"]
