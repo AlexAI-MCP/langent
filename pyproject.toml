@@ -9,7 +9,7 @@ description = "RAG Agentic Framework — Workspace → Vector DB → 3D Nebula V
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.10"
-authors = [{ name = "AlexAI (이용욱)" }]
+authors = [{ name = "AlexAI" }]
 
 dependencies = [
     # Vector DB

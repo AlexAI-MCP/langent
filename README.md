@@ -108,4 +108,4 @@ Once you run `langent serve`, navigate to `http://localhost:8000`.
 This project is licensed under the Apache License 2.0.
 
 ---
-*Created with ❤️ by Alex AI (Lee Yong-uk)*
+*Created with ❤️ by Alex AI*
