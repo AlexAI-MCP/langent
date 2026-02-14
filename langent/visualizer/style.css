@@ -181,6 +181,83 @@ body {
     cursor: pointer;
 }
 
+.close-btn-small {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* ─── Results Panel ───────────────── */
+
+#results-panel {
+    position: absolute;
+    top: 100px;
+    left: 30px;
+    width: 320px;
+    max-height: 60vh;
+    background: rgba(10, 10, 30, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 240, 255, 0.12);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+#results-panel.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-20px);
+}
+
+.panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #00f0ff;
+}
+
+#results-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.result-item {
+    padding: 12px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border: 1px solid transparent;
+    margin-bottom: 6px;
+}
+
+.result-item:hover {
+    background: rgba(0, 240, 255, 0.1);
+    border-color: rgba(0, 240, 255, 0.2);
+}
+
+.result-item .title {
+    font-size: 0.85rem;
+    color: #eee;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.result-item .meta {
+    font-size: 0.7rem;
+    color: #666;
+}
+
 /* ─── Status Bar ──────────────────── */
 
 #status-bar {

@@ -1,0 +1,517 @@
+Entity,Day,Training computation (petaFLOP),Domain
+(ensemble): AWD-LSTM-DOC (fin) × 5 (WT2),2018-08-30,666.00006,Language
+4 layer QRNN (h=2500),2018-03-22,591.5882,Language
+ACF-WIDER,2014-07-15,0.07638001,Vision
+ADALINE,1960-06-30,6.6e-12,Vision
+ADAM (CIFAR-10),2014-12-22,0.62497985,Vision
+ADM,2021-05-11,6200000,Image generation
+AFM-on-device,2024-07-29,451260000,Language
+AFM-server,2024-07-29,4300000000,Language
+ALBERT-xxlarge,2020-02-09,2390000,Language
+ALIGN,2021-06-11,25986700,Multiple domains
+ALLaM adapted 70B,2024-05-21,1062000060,Language
+ANN Eye Tracker,1993-11-29,0.000017534401,Vision
+AR-LDM,2022-11-20,510000,Image generation
+ASE+ACE,1983-09-01,3.24e-7,Robotics
+AWD-LSTM + MoS + Partial Shuffled,2019-06-10,315.00003,Language
+AWD-LSTM - 3-layer LSTM (tied) + continuous cache pointer (WT2),2017-08-07,297.00003,Language
+AWD-LSTM+WT+Cache+IOG (WT2),2017-09-26,3.18,Language
+AWD-LSTM-DRILL + dynamic evaluation† (WT2),2019-05-14,408,Language
+"AWD-LSTM-MoS + dynamic evaluation (WT2, 2017)",2017-11-10,3360,Language
+Adaptive Input Transformer + RD,2021-06-28,85800.01,Language
+AgentFounder-30B,2025-09-16,653670000,Language
+AlexNet,2012-09-30,470,Vision
+AlexaTM 20B,2022-08-02,204374020,Language
+AlphaCode,2022-02-02,238010000,Language
+AlphaFold,2020-01-15,100000,Biology
+AlphaFold 2,2020-11-30,2990000,Biology
+AlphaFold 3,2024-05-08,41405644,Biology
+AlphaFold-Multimer,2021-10-04,4350000,Biology
+AlphaGo Fan,2015-10-01,380000.03,Games
+AlphaGo Lee,2016-01-27,1900000,Games
+AlphaGo Master,2017-10-19,341000,Games
+AlphaGo Zero,2017-10-18,649439.9,Games
+AlphaStar,2019-10-30,107734000,Games
+AlphaTensor,2022-10-05,714147.8,Multiple domains
+AlphaX-1,2019-10-02,889.344,Vision
+AlphaZero,2017-12-05,106000,Games
+Amazon Nova Pro,2024-12-03,6000009700,Multiple domains
+Amazon Titan,2023-09-28,4800000000,Multiple domains
+Ankh_large,2023-01-16,6500000,Biology
+Aramco Metabrain AI,2024-03-04,10500000000,Language
+AudioGen,2023-03-05,9500000,Other
+AudioLM,2023-07-26,3900,Other
+BASIC-L,2021-11-19,41200000,Vision
+BEIT-3,2022-08-22,70000,Multiple domains
+BERT-Large,2018-10-11,285000,Language
+BERT-Large-CAS (PTB+WT2+WT103),2019-04-20,154050,Language
+BERT-RBP,2022-04-07,140000,Biology
+BIDAF,2016-11-05,3468.6145,Language
+BLIP-2 (Q-Former),2023-01-30,1200000,Multiple domains
+BLOOM-176B,2022-07-11,365664000,Language
+Bankruptcy-NN,1990-06-17,0.0000030593378,Other
+Base LM + kNN LM + Continuous Cache,2019-11-01,30529.201,Language
+Big Transformer for Back-Translation,2018-08-28,478080,Language
+Big-Little Net,2018-07-10,246.048,Vision
+Big-Little Net (speech),2018-07-10,429.00482,Speech
+BlenderBot 3,2022-08-10,430000030,Language
+BloombergGPT,2023-03-30,236000020,Language
+ByT5-XXL,2021-05-28,81000000,Language
+CHAI-1,2024-10-15,7760572.5,Biology
+CLIP (ViT L/14@336px),2021-01-05,10500000,Multiple domains
+CNN Committee (MNIST),2011-09-18,52,Vision
+CNN Committee (NIST),2011-09-18,26,Vision
+CNN committee (traffic sign),2011-10-03,0.99198145,Vision
+CODEFUSION (Python),2023-10-26,7920,Language
+CPM-Large,2020-12-01,260520,Language
+CT-MoS (WT2),2020-12-25,540,Language
+CaLM,2022-12-19,29000,Biology
+CamemBERT,2019-11-10,830000,Language
+Cancer drug mechanism prediction,1992-10-16,5.346e-8,Other
+Ceramic-MLP,1994-01-07,0.0000045312,Other
+ChatGLM3-6B,2023-10-27,50400000,Multiple domains
+Chinchilla,2022-03-29,576000000,Language
+Claude 2,2023-07-11,3866000100,Language
+Claude 3.5 Sonnet,2024-06-20,26999998000,Multiple domains
+Claude 3.7 Sonnet,2025-02-24,33500000000,Multiple domains
+CoAtNet,2021-06-09,42700004,Vision
+CoCa,2022-06-14,73000000,Vision
+CodeT5-base,2021-11-01,1560000.1,Language
+CodeT5-large,2022-07-05,2720000,Language
+Codex,2021-07-07,73440000,Language
+CogAgent,2023-12-14,67070004,Multiple domains
+CogVLM-17B,2023-11-06,63310000,Multiple domains
+CogView,2021-05-26,26800000,Image generation
+Cognitron,1975-09-01,5.184e-9,Other
+Conformer + Wav2vec 2.0 + Noisy Student,2020-10-20,7600000,Speech
+ContextNet + Noisy Student,2020-01-19,8160000,Speech
+Contriever,2021-12-16,157000,Language
+ConvS2S (ensemble of 8 models),2017-07-25,56400,Language
+Cross-lingual alignment,2019-04-04,2560,Language
+DALL-E,2021-01-05,47000000,Image generation
+DALL·E 2,2022-04-06,336957860,Image generation
+DBRX,2024-03-27,2600000000,Language
+DCNN,2015-08-07,480.9869,Vision
+DD-PPO,2019-12-19,780000.06,Robotics
+DDPM-IP (CelebA),2023-01-27,350000,Image generation
+DETR,2020-05-26,400000,Vision
+DINOv2,2023-04-14,7418511,Vision
+DITTO,2022-06-06,3317.7603,Language
+DLRM-2020,2019-05-31,4000,Other
+DLWP,2021-02-09,5684.515,Other
+DNABERT,2021-08-15,107000.01,Biology
+DNN EM segmentation,2012-12-03,478,Vision
+DQN,2013-12-19,2.846884,Games
+DeBERTa,2021-06-10,25880000,Language
+DeLighT,2020-08-03,3801.6,Language
+Decision tree (classification),2001-12-08,0.063,Vision
+Deep Autoencoders,2011-04-29,36.72864,Vision
+DeepLoc,2017-07-07,578.1024,Biology
+DeepSeek-Coder-V2 236B,2024-06-17,1285200000,Language
+DeepSeek-R1,2025-01-20,3500000000,Language
+DeepSeek-R1 (May 2025),2025-05-28,4020010000,Language
+DeepSeek-V2.5,2024-09-06,1789200000,Language
+DeepSeek-V3,2024-12-24,3407800000,Language
+DeepStack,2017-01-06,14463.36,Games
+DeiT-B,2021-01-15,78840,Vision
+Denoising Diffusion Probabilistic Models (LSUN Bedroom),2021-06-11,78401.25,Vision
+DensePhrases,2020-12-23,2099.52,Language
+Detic,2022-01-07,23439.975,Vision
+DiT-XL/2,2023-03-02,600000,Image generation
+DiffDock,2022-10-04,72000,Biology
+Discriminator Guidance,2022-11-28,215700,Image generation
+DistBelief NNLM,2013-01-16,2612.736,Language
+DistBelief Speech,2012-12-03,311.40002,Speech
+DistilBERT,2019-10-02,12441.6,Language
+Distributed representation NN,1986-08-15,3.888e-7,Other
+Doubao-pro,2024-10-28,25050001000,Language
+DreamerV3,2023-01-10,220320,Games
+Dropout (CIFAR),2012-06-03,4.2687,Vision
+Dropout (ImageNet),2012-06-03,273.1968,Vision
+Dropout (MNIST),2012-06-03,6.039371,Vision
+Dropout-LSTM+Noise(Bernoulli) (WT2),2018-05-03,127,Language
+EI-REHN-1000D,2017-08-14,10.599999,Language
+ELECTRA,2020-03-23,3100000,Language
+ELMo,2018-02-01,3.3001,Language
+EMDR,2021-06-09,1910000,Language
+ERNIE 3.0,2021-07-05,22500000,Language
+ERNIE 3.0 Titan,2021-12-23,1042100030,Language
+ERNIE-Doc (247M),2020-12-31,30302.799,Language
+ERNIE-GEN (large),2020-08-06,200000,Language
+ESM1b,2020-12-15,5100000,Biology
+ESM2-15B,2022-07-21,73500000,Biology
+ESM3 (98B),2024-06-25,1070000000,Biology
+EVA-01,2022-11-14,15010000,Vision
+EXAONE 3.5 32B,2024-12-09,1250000000,Language
+EXAONE 4.0 (32B),2025-07-15,2690000000,Language
+EXAONE Deep 32B,2025-03-16,1260000000,Language
+Eagle 2,2025-01-20,47156000,Multiple domains
+EfficientNetV2-XL,2021-06-23,95600.01,Vision
+EnhanceNet,2016-12-23,130.79233,Vision
+FFN SwiGLU,2020-02-14,33687.316,Language
+FGN,2025-06-12,9618951,Other
+FLAN 137B,2021-09-03,2047000000,Language
+FTW (For The Win),2018-07-03,34900,Games
+Falcon-180B,2023-09-06,3760000300,Language
+Falcon-40B,2023-03-15,240000000,Language
+Feedback Transformer,2020-02-21,7690.5474,Language
+Feedforward NN,2010-05-13,0.35000002,Vision
+FinGPT-13B,2023-10-07,160000000,Language
+Fine-tuned-AWD-LSTM-DOC (fin),2018-11-12,51.88,Language
+Flamingo,2022-04-29,218972000,Multiple domains
+Flan-PaLM 540B,2022-10-20,2540000000,Language
+Florence,2021-11-22,48310000,Vision
+Fold2Seq,2021-06-24,140,Biology
+FourCastNet,2022-02-22,345047.06,Other
+Fractional Max-Pooling,2014-12-18,100,Vision
+Fraternal dropout + AWD-LSTM 3-layer (WT2),2017-10-31,306,Language
+FunSearch,2023-12-14,387000000,Multiple domains
+Fusion in Encoder,2022-11-18,130000,Language
+GANs,2014-06-10,518.4,Image generation
+GGNN,2023-08-05,7560000.5,Biology
+GL-LWGC-AWD-MoS-LSTM + dynamic evaluation (WT2),2017-08-29,456.00003,Language
+GLM-130B,2022-08-04,354900540,Language
+GLM-4.5,2025-08-05,4420000300,Language
+GLM-4.6,2025-09-30,4420000300,Language
+GLM-4.7,2025-12-22,4420000300,Language
+GLaM,2021-12-13,363631140,Language
+GNMT,2016-09-26,6620000,Language
+GNN,2008-12-09,0.0000016145999,Other
+GOAT,2021-07-27,24120000,Games
+GPT-1,2018-06-01,17578.125,Language
+GPT-2 (1.5B),2019-02-14,1920000.1,Language
+GPT-2 Medium (FlashAttention),2022-05-27,892809.25,Language
+GPT-3 175B (davinci),2020-05-28,314000000,Language
+GPT-3.5 (davinci-002)
+,2022-11-28,2578000000,Language
+GPT-4 (Jun 2023),2023-03-15,21000000000,Multiple domains
+GPT-4 (Mar 2023),2023-03-15,21000000000,Multiple domains
+GPT-4.5,2025-02-27,380000000000,Multiple domains
+GPT-5,2025-08-07,66000003000,Multiple domains
+GPT-NeoX-20B,2022-02-09,93162700,Language
+GPU DBNs,2009-06-15,1,Other
+GQA-8-XXL,2023-12-23,34912896,Language
+GShard (dense),2020-06-30,47650000,Language
+Galactica,2022-11-16,324000000,Multiple domains
+Gato,2022-05-12,4020000,Multiple domains
+Gemini 1.0 Ultra,2023-12-06,50000003000,Multiple domains
+GenCast,2024-05-01,816998.44,Other
+GenSLM,2022-10-11,1420000,Biology
+Generative BST,2021-03-05,14490000,Language
+German ELECTRA Large,2020-10-21,1428295.6,Language
+GoogLeNet / InceptionV1,2014-09-17,1510,Vision
+Gopher (280B),2021-12-08,631000000,Language
+GraphCast,2023-11-14,21000000,Other
+Grok 3,2025-02-17,350000000000,Multiple domains
+Grok 4,2025-07-09,500000000000,Multiple domains
+Grok-1,2023-11-04,2900000000,Language
+Grok-2,2024-08-13,29600002000,Multiple domains
+HR-ResNet101,2016-12-13,7077,Vision
+Hanabi 4 player,2019-02-01,4300,Games
+Handwritten digit recognition network,1989-11-27,0.00018144,Vision
+Heuristic Reinforcement Learning,1965-10-01,1.08e-9,Robotics
+Hierarchical LM,2005-01-06,0.115848005,Language
+Hierarchical Scene Labeling (Stanford Background),2013-08-01,237.74689,Vision
+High Performance CNN (NORB),2011-07-16,25.7985,Vision
+HuBERT,2021-07-27,5540000,Speech
+Hunyuan-Large,2024-11-06,3492370000,Language
+Hybrid H3-2.7B,2022-12-28,6480000,Language
+HyenaDNA,2023-06-27,1811000,Biology
+HyperCLOVA 204B,2021-09-10,200000000,Language
+IMPALA,2018-02-05,168000,Games
+ISS,2017-09-15,3.4,Language
+Image generation,2013-12-20,0.47520003,Vision
+Imagen,2022-05-23,14600000,Image generation
+Inception v3,2015-12-02,100000,Vision
+Incoder-6.7B,2023-04-09,3000010.2,Language
+Inflection-2,2023-11-22,10010000000,Language
+Inflection-2.5,2024-03-07,8000001500,Language
+InstructBLIP,2023-05-11,194000,Multiple domains
+InstructGPT 175B,2022-01-27,319181000,Language
+InternImage,2022-11-10,2408000.2,Vision
+InternLM,2023-07-06,998400000,Language
+Invariant CNN,2004-06-27,0.00097423,Vision
+Invariant image recognition,1989-06-18,0.000027,Vision
+JFT,2017-07-10,843000.06,Vision
+JPMAX,1994-12-02,8.082828e-8,Vision
+Jais,2023-08-29,48946764,Language
+Jurassic-1-Jumbo,2021-08-11,370000000,Language
+K-EXAONE,2025-12-31,1520000000,Language
+KEPLER,2020-11-23,1660000,Language
+KN-LM,2007-06-22,773.03815,Language
+KataGo,2019-02-27,23200.002,Games
+Kimi K2,2025-07-11,2976000000,Language
+Kimi K2 Thinking,2025-11-06,4200000000,Language
+LCNP LabelMe,2009-11-22,3.2951503,Vision
+LCNP MNIST,2009-11-22,4.1818523,Vision
+LCNP NORB,2009-11-22,2.45209,Vision
+LISSOM,1995-11-27,0.0001955448,Vision
+LLaMA-65B,2023-02-24,550000000,Language
+LLaVA,2023-04-17,78049000,Multiple domains
+LLaVA 1.5,2023-11-05,78070000,Multiple domains
+LLaVA-OV-72B,2024-08-06,3036552000,Multiple domains
+LMICA,2004-12-01,2.7820802,Vision
+LSTM,1997-11-15,0.031512,Language
+LSTM LM,2012-09-09,16.6,Language
+LSTM+NeuralCache,2018-09-24,0.9828,Language
+LTE speaker verification system,1966-11-01,1.0591706e-7,Speech
+LUKE,2020-10-02,18144000,Language
+LaMDA,2022-02-10,355000000,Language
+LeNet-5,1998-11-01,0.0028109376,Vision
+Libratus,2017-08-19,551000,Games
+Linear Decision Functions,1962-06-01,1.5592501e-9,Other
+Ling-1T,2025-10-10,6000001500,Language
+Llama 2-70B,2023-07-18,810000000,Language
+Llama 2-7B,2023-07-18,84000000,Language
+Llama 3-70B,2024-04-18,7861000000,Language
+Llama 3.1-405B,2024-07-23,38000000000,Language
+Llama 3.2 11B,2024-09-24,579000000,Multiple domains
+Llama 3.3 70B,2024-12-06,6864977000,Language
+Llama 4 Behemoth (preview),2025-04-05,51840000000,Multiple domains
+Llama 4 Maverick,2025-04-05,2244000000,Multiple domains
+Llama 4 Scout,2025-04-05,4080000300,Multiple domains
+Llama Guard,2023-12-07,160000000,Language
+Llama-3.1-Nemotron-70B-Instruct,2024-06-12,7929000000,Language
+LongCat-Flash,2025-09-01,3725999900,Language
+M6-T,2021-03-05,5500000.5,Multiple domains
+MLN-ASR,1988-08-01,2.96425e-7,Speech
+MLP with back-propagation,1986-10-01,6.7392e-7,Other
+MM1-30B,2024-03-14,486000000,Multiple domains
+MMLSTM (PTB),2019-12-05,58.298782,Language
+MMLSTM (WT-2),2019-12-05,193.8,Language
+MSA Transformer,2021-02-13,5490000,Biology
+"MSRA (C, PReLU)",2015-02-06,23974.031,Vision
+MUSIC perceptron,1996-06-03,0.0008817336,Vision
+Make-A-Scene,2022-03-24,6417285,Image generation
+Masked Autoencoders ViT-H,2021-11-11,460000,Vision
+MedBERT,2021-05-20,9470,Other
+Meena,2020-01-28,112000000,Language
+MegaScale (Production),2024-02-23,3900000000,Language
+Megatron-BERT,2019-09-17,22000002,Language
+Megatron-LM (1.2B),2019-09-17,11300000,Language
+Megatron-LM (8.3B),2019-09-17,9100000,Language
+Megatron-Turing NLG 530B,2021-10-11,858600060,Language
+Mesh-TensorFlow Transformer 2.9B (translation),2018-11-05,68428.805,Language
+Mesh-TensorFlow Transformer 4.9B (language),2018-11-05,161740.8,Language
+MetNet,2020-03-24,9510.912,Other
+Meta Pseudo Labels,2021-03-01,47900004,Vision
+Minerva (540B),2022-06-29,2741500200,Language
+Mistral Large,2024-02-26,11200000000,Language
+Mistral Large 2,2024-07-24,21300000000,Language
+Mixtral 8x7B,2023-12-11,774000000,Language
+Mixture of linear models,1994-12-02,0.0004536,Vision
+MoE-Multi,2017-01-23,93939.055,Language
+Mogrifier RLSTM (WT2),2022-11-03,140,Language
+Movie Gen Video,2024-10-04,1650000000,Multiple domains
+MuZero,2019-11-19,48000,Games
+Multi-cell LSTM,2018-11-15,2.00664,Language
+MultiBand Diffusion,2023-11-08,26000,Multiple domains
+MuseNet,2019-04-25,220830.11,Other
+NAS with base 8 and shared embeddings,2016-11-05,10.5,Language
+NASv3 (CIFAR-10),2016-11-05,2200000,Vision
+NETtalk reimplementation,1990-06-01,0.000035811936,Speech
+NLLB,2022-07-06,17511138,Language
+NPLM (AP News),2003-03-15,1.6668692,Language
+NPLM (Brown),2003-03-15,0.13207626,Language
+NVLM-D 72B,2024-10-22,3020000000,Multiple domains
+NVLM-H 72B,2024-10-22,3020000000,Multiple domains
+NVLM-X 72B,2024-10-22,3039818200,Multiple domains
+Named Entity Recognition model,2016-03-04,96.940796,Language
+Nemotron-3-8B,2023-11-15,180000000,Language
+Nemotron-4 340B,2024-06-14,18000000000,Language
+Neocognitron,1980-04-01,2.7373824e-7,Vision
+NetTalk (dictionary),1987-06-06,0.000027664064,Speech
+NetTalk (transcription),1987-06-06,0.000028328002,Speech
+Neural LM,2000-11-28,6.339,Language
+NeuroChess,1994-12-02,0.0008587308,Games
+Noisy Student (L2),2019-11-11,26120000,Vision
+Nucleotide Transformer,2023-01-15,8080000,Biology
+NÜWA,2021-11-24,7245988,Multiple domains
+ONE-PEACE,2023-05-18,180000,Multiple domains
+OPT-175B,2022-05-02,430000030,Language
+Octo-Base,2024-05-20,585000,Robotics
+OmegaPLM,2022-07-22,10351411,Biology
+Once for All,2020-04-29,623700,Vision
+OpenAI Five,2019-12-13,67000004,Games
+OpenAI Five Rerun,2019-12-13,13000000,Games
+OpenAI TI7 DOTA 1v1,2017-08-11,604609.5,Games
+OpenVLA,2024-06-13,110000000,Multiple domains
+PLATO-XL,2021-09-20,9900000,Language
+PLUG,2021-04-19,35997696,Language
+PaLI,2022-09-14,169000020,Multiple domains
+PaLI-X,2023-05-29,560000000,Multiple domains
+PaLM (540B),2022-04-04,2527200000,Language
+PaLM 2,2023-05-10,7339999700,Language
+PanGu-Σ,2023-03-20,467000000,Language
+Pandemonium (morse),1959-02-01,6e-7,Language
+Pangu Ultra,2025-04-10,10692001000,Language
+Pangu-Weather,2023-07-05,39800000,Other
+Parti,2022-06-22,509607970,Image generation
+PeptideBERT,2023-08-28,49.000004,Biology
+Perceptron (1960),1960-03-30,7.2e-7,Vision
+Perceptron Mark I,1957-01-01,6.948949e-10,Other
+PermuteFormer,2021-09-06,2775,Language
+Pluribus,2019-07-11,66,Games
+PoE MNIST,2000-11-28,0.051810004,Vision
+Pointer Sentinel-LSTM (medium),2016-09-26,7.49,Language
+PolyCoder,2022-02-26,1100000,Language
+PolyNet,2016-11-17,64000,Vision
+Pooling CNN (Caltech 101),2010-09-15,1.2211242,Vision
+Pooling CNN (NORB),2010-09-15,1.4562773,Vision
+Predictive Coding NN,1994-12-02,0.018621901,Language
+Print Recognition Logic,1963-01-01,2.25e-8,Vision
+ProBERTa,2020-09-01,9720.001,Biology
+ProGen2-xlarge,2022-06-27,13500001,Biology
+Projected GAN,2021-11-01,10500,Image generation
+ProtBERT-BFD,2021-05-04,39000004,Biology
+ProtT5-XL-U50,2021-05-04,18704498,Biology
+ProteinBERT,2022-02-10,65000,Biology
+PyramidNet,2017-09-06,2.34,Vision
+QRNN,2018-02-01,688.66473,Language
+QwQ-32B,2025-03-06,3510000000,Language
+Qwen-72B,2023-11-30,1300000000,Language
+Qwen1.5-72B,2024-02-04,1300000000,Language
+Qwen2-72B,2024-06-07,3020000000,Language
+Qwen2.5 Instruct (72B),2024-09-19,7851600400,Language
+Qwen2.5-32B,2024-09-17,3510000000,Language
+Qwen2.5-72B,2024-09-19,7800000000,Language
+Qwen3-235B-A22B,2025-04-29,4752000000,Language
+Qwen3-235B-A22B-Instruct (Jul 2025),2025-07-25,4752000000,Language
+Qwen3-235B-A22B-Thinking (Jul 2025),2025-07-25,4752000000,Language
+Qwen3-Coder-480B-A35B,2025-07-22,1575000000,Language
+Qwen3-Max,2025-09-05,15120000000,Language
+Qwen3-Omni-30B-A3B,2025-09-22,36000000,Multiple domains
+R-FCN,2016-06-21,719.3578,Vision
+RCTM,2013-10-01,9.3312,Language
+RDT-1B,2024-10-10,40600000,Robotics
+RECONTRA-categorized,1999-06-02,0.0080136005,Language
+RECONTRA-uncategorized,1999-06-02,0.003864,Language
+RETRO-7B,2022-02-07,16800000,Language
+RNN LM,2010-09-26,53.960003,Language
+RNNsearch-50*,2014-09-01,1555.2,Language
+RNTN,2013-10-01,14.22,Language
+RankNet,2005-08-07,0.0034820817,Other
+ReLU-Speech,2013-05-26,127.733765,Speech
+Reka Core,2024-04-15,8400010000,Multiple domains
+ResNeXt-101 (64×4d),2016-11-16,12000,Vision
+ResNeXt-101 32x48d,2018-05-02,8743950,Vision
+ResNet-101 (ImageNet),2015-12-10,7004,Vision
+ResNet-152 (ImageNet),2015-12-10,10414.081,Vision
+ResNet-200,2016-09-17,29741.645,Vision
+RetinaNet-R101,2017-08-07,2065.392,Vision
+RoBERTa Large,2019-07-01,8506700,Language
+RoFormer,2023-11-08,2162.688,Language
+RoseTTAFold All-Atom (RFAA),2023-10-09,214000.02,Biology
+S4,2021-10-31,78328.625,Language
+SAF R-CNN,2015-10-28,12311.081,Vision
+SB-LM,2007-06-22,1449.4465,Language
+SEER,2021-07-29,18000000,Vision
+SNM-skip,2014-12-03,297600,Language
+SOM-CNN,1997-01-31,0.000031431602,Vision
+SPHINX (Llama 2 13B),2023-11-13,30400000,Multiple domains
+SPIDER2,2016-10-28,18.220001,Biology
+SPN-4+KN5,2014-09-14,44,Language
+SPPNet,2014-06-18,3411.072,Vision
+SRU++ Large,2021-02-24,21173.705,Language
+ST-MoE,2022-02-17,290000000,Language
+SVM-CNN,2006-06-17,0.7452,Vision
+Samuel Neural Checkers,1959-07-01,4.284e-7,Games
+Sandwich Transformer,2019-11-10,23504.094,Language
+SciBERT,2019-03-26,89268.48,Language
+Seed1.5-VL,2025-05-11,1388556000,Multiple domains
+"Segatron-XL large, M=384 + HCP",2022-03-21,26500,Language
+Segment Anything Model,2023-04-05,7800000,Vision
+Seq2Seq LSTM,2014-09-10,56000,Language
+SexNet compression,1990-10-01,0.0000787752,Vision
+Siamese-TDNN,1993-08-01,0.01286957,Vision
+SigLIP 400M,2023-03-27,4946730.5,Vision
+Skywork-13B,2023-10-30,250000000,Language
+SmooCT,2014-07-01,69,Games
+Sparse all-MLP,2022-04-14,532224,Language
+Speaker-independent vowel classification,1989-11-27,0.000007485696,Speech
+Stable Diffusion (LDM-KL-8-G),2022-04-13,50000000,Image generation
+Stable Diffusion 3,2024-02-22,50000000,Image generation
+StarCoder,2023-05-09,84600000,Language
+Statement Curriculum Learning,2022-03-02,17901648,Multiple domains
+Student of Games,2021-12-06,36679270,Games
+StyleGAN,2018-12-12,39.3,Image generation
+StyleGAN3-R,2021-06-21,2427840,Image generation
+StyleGAN3-T,2021-06-21,1702080,Image generation
+Swift,2023-08-30,53.37,Robotics
+Swin Transformer V2 (SwinV2-G),2021-11-18,1100000,Multiple domains
+Switch,2021-01-11,82200000,Language
+System 11,1996-06-18,0.000025859617,Vision
+T5-11B,2019-10-23,33000000,Language
+T5-3B,2019-10-23,9000000,Language
+TA-CNN,2014-11-29,10.854,Vision
+TC-DNN-BLSTM-DNN,2015-04-06,194.10193,Speech
+TD-Gammon,1992-05-01,0.018232157,Games
+TaLK Convolution,2020-02-08,26990.346,Language
+Telechat2-115B,2024-09-20,6900000300,Language
+Tensor-Transformer(1core)+PN (WT103),2020-03-17,1580,Language
+Theseus,1950-07-02,4e-14,Robotics
+Tranception,2022-05-27,7240000.5,Biology
+TransE,2013-12-05,1340.928,Language
+Transformer (2017),2017-06-12,7424.525,Language
+Transformer (Adaptive Input Embeddings) WT103,2018-09-28,44700,Language
+Transformer + Simple Recurrent Unit,2018-09-17,11000,Language
+Transformer local-attention (NesT-B),2021-05-26,24057.602,Vision
+Transformer-XL (257M),2019-01-09,378327.72,Language
+Transformer-XL DeFINE (141M),2019-11-27,1742.76,Language
+Transformer-XL Large + Phrase Induction,2019-06-04,378486.53,Language
+TransformerXL + spectrum control,2020-03-11,26289.762,Language
+Translation-invariant MLP,1987-06-15,0.000018032948,Other
+TrellisNet,2018-10-15,2780,Language
+Turing ULRv5,2021-09-28,28983952,Language
+Turing-NLG,2020-02-13,15700000,Language
+Two Stage Feature Extraction (MNIST),2009-09-01,0.020754,Vision
+U-Net,2015-05-18,50.832253,Vision
+U-PaLM (540B),2022-10-20,2530000100,Language
+UDSMProt,2019-09-04,637,Biology
+UL2,2022-05-10,120000000,Language
+UnifiedQA,2020-05-02,16500,Language
+Unsupervised High-level Feature Learner,2012-07-12,600,Vision
+VALL-E,2023-01-05,10100,Multiple domains
+VD-LSTM+REAL Large,2016-11-04,21.3,Language
+VGG16,2014-09-04,12291,Vision
+VGG19,2014-09-04,11000,Vision
+VILA-13B,2023-12-12,2300313.5,Multiple domains
+VILA1.5-13B,2024-05-03,2300313.5,Multiple domains
+"Variational (untied weights, MC) LSTM (Large)",2015-12-16,5.886144,Language
+Vega v2,2022-12-04,77600000,Language
+ViT-22B,2023-02-10,193248000,Vision
+ViT-G (model soup),2022-03-10,3400000.2,Vision
+ViT-G/14,2021-06-08,58500000,Vision
+ViT-Huge/14,2020-10-22,4262000,Vision
+VideoMAE V2,2023-03-29,9700000,Other
+Visualizing CNNs,2013-11-12,532,Vision
+Volcano 13B,2023-11-13,45600000,Multiple domains
+WeNet (Penn Treebank),2019-04-08,730,Language
+Weight Decay,1991-12-02,0.000075474,Speech
+Whisper,2022-09-21,4207266.5,Speech
+Word2Vec (large),2013-10-16,38.879997,Language
+XGLM-7.5B,2021-12-20,22500000,Language
+XLM-RoBERTa,2019-11-05,20760000,Language
+XLMR-XXL,2021-08-17,33660000,Language
+XLNet,2019-06-01,6190000,Language
+Xception,2016-10-07,436000,Vision
+YOLOX-X,2021-08-06,634275,Vision
+YOLOv3,2018-04-08,13416.381,Vision
+Yi-34B,2023-11-02,610000060,Language
+Yi-Large,2024-05-13,1800000000,Language
+Yi-Lightning,2024-10-18,1500000000,Language
+Yuan 1.0,2021-10-12,353800030,Language
+Zidong Taichu,2021-08-11,801600,Multiple domains
+Zip CNN,1989-12-01,0.001496338,Vision
+aLSTM(depth-2)+RecurrentPolicy (WT2),2018-05-22,72.96,Language
+base LM+GNN+kNN,2021-10-17,52587.457,Language
+eDiff-I,2022-11-02,54600.004,Image generation
+genCNN + dyn eval,2015-03-17,34.15345,Language
+gpt-oss-120b,2025-08-05,4940000000,Language
+gpt-oss-20b,2025-08-05,549000000,Language
+iCCCP,2010-06-13,1.08,Vision
+mT5-XXL,2020-10-20,82000000,Language
+nekomata-14b,2023-12-21,255620000,Language
+trRosetta,2019-08-22,38047.97,Biology
+wave2vec 2.0 LARGE,2020-10-22,3870720,Speech
+xTrimoPGLM -100B,2023-07-06,620000000,Biology

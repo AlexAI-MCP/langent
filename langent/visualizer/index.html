@@ -46,6 +46,15 @@
             <button id="map-btn" onclick="location.href='/map.html'">🗺️ Map</button>
         </div>
 
+        <!-- Search Results List -->
+        <div id="results-panel" class="hidden">
+            <div class="panel-header">
+                <span>🔍 Search Results</span>
+                <button class="close-btn-small" onclick="closeResults()">✕</button>
+            </div>
+            <div id="results-list"></div>
+        </div>
+
         <!-- Info Panel -->
         <div id="info-panel" class="hidden">
             <button class="close-btn" onclick="closeInfo()">✕</button>

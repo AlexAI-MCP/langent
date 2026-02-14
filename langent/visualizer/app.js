@@ -316,19 +316,37 @@ window.doSearch = async function () {
     if (!query) return;
 
     try {
-        const resp = await fetch(`/api/nebula/search?q=${encodeURIComponent(query)}&top_k=10`);
+        const resp = await fetch(`/api/nebula/search?q=${encodeURIComponent(query)}&top_k=20`);
         const data = await resp.json();
 
         // Highlight results
+        allPoints = data.points; // Update with latest points from server
         highlightedIds = new Set(data.results.map(r => r.id));
-        renderPointCloud(data.points);
-        // Note: Graph and crosslinks stay for context
+        renderPointCloud(allPoints);
 
-        // Show first result in info panel
-        if (data.results.length > 0) {
-            const r = data.results[0];
-            showInfo(r.metadata?.source || 'unknown', r.source || '', r.document || r.preview || '');
-        }
+        // Show Results Panel
+        const panel = document.getElementById('results-panel');
+        const list = document.getElementById('results-list');
+        list.innerHTML = '';
+        panel.classList.remove('hidden');
+
+        data.results.forEach(res => {
+            const item = document.createElement('div');
+            item.className = 'result-item';
+            const source = res.metadata?.source || 'unknown';
+            const preview = (res.document || res.preview || '').substring(0, 80);
+
+            item.innerHTML = `
+                <div class="title">${source}</div>
+                <div class="meta">${preview}...</div>
+            `;
+
+            item.onclick = () => {
+                showInfo(res.id, source, res.document || res.preview || '');
+                flyToPoint(res.id);
+            };
+            list.appendChild(item);
+        });
 
         document.getElementById('hover-info').textContent =
             `Found ${data.results.length} results for "${query}"`;
@@ -336,6 +354,31 @@ window.doSearch = async function () {
         console.error('Search error:', err);
     }
 };
+
+window.closeResults = function () {
+    document.getElementById('results-panel').classList.add('hidden');
+};
+
+function flyToPoint(id) {
+    const pos = pointPositions[id];
+    if (!pos) return;
+
+    // Stop auto-rotate
+    controls.autoRotate = false;
+
+    // Tween-like movement using controls.target
+    const targetPos = new THREE.Vector3(pos.x, pos.y, pos.z);
+
+    // We use a simple approach: move target and camera
+    // For a smoother experience, we can just update controls.target
+    controls.target.copy(targetPos);
+
+    // Position camera at a comfortable distance
+    const offset = new THREE.Vector3(15, 10, 15);
+    camera.position.copy(targetPos).add(offset);
+
+    camera.lookAt(targetPos);
+}
 
 // ─── Ingest ──────────────────────────────
 window.doIngest = async function () {

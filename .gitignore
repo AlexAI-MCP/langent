@@ -45,6 +45,7 @@ analyze_*.py
 export_map_data.py
 find_car_repair.py
 *.csv
+!research/**/*.csv
 *.pdf
 *.txt
 !README.md

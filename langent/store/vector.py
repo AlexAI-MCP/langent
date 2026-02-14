@@ -5,6 +5,7 @@ Workspace files → embeddings → ChromaDB → 3D visualization data
 """
 import os
 import hashlib
+import json
 from typing import List, Dict, Any, Optional
 from pathlib import Path
 
@@ -33,8 +34,9 @@ class VectorStore:
         self.collection_name = collection_name
         self._embedding_model_name = embedding_model
         self._ef = None
-        self._coords_cache = None
         self._cache_count = -1
+        self._coords_cache = []
+        self._cache_file = self.db_path.parent / "nebula_cache.json"
 
         self.collection = self.client.get_or_create_collection(
             name=collection_name,
@@ -167,9 +169,24 @@ class VectorStore:
         Each point: {id, x, y, z, metadata, document_preview}
         """
         current_count = self.count()
+        
+        # 1. Try In-memory cache
         if self._cache_count == current_count and self._coords_cache:
             return self._coords_cache
 
+        # 2. Try Disk cache
+        if self._cache_file.exists():
+            try:
+                with open(self._cache_file, "r") as f:
+                    cached = json.load(f)
+                    if cached.get("count") == current_count:
+                        self._coords_cache = cached.get("points", [])
+                        self._cache_count = current_count
+                        return self._coords_cache
+            except Exception:
+                pass
+
+        # 3. Recalculate
         data = self.get_all_embeddings(limit=limit)
         if data["embeddings"] is None or len(data["embeddings"]) < 2:
             return []
@@ -201,6 +218,15 @@ class VectorStore:
 
         self._coords_cache = self._build_points(coords_3d, data)
         self._cache_count = current_count
+        
+        # 4. Save to Disk
+        try:
+            self._cache_file.parent.mkdir(parents=True, exist_ok=True)
+            with open(self._cache_file, "w") as f:
+                json.dump({"count": current_count, "points": self._coords_cache}, f)
+        except Exception:
+            pass
+            
         return self._coords_cache
 
     def _build_points(self, coords, data) -> List[Dict]:
