@@ -504,7 +504,7 @@ function animate() {
     controls.update();
 
     // Pulse point cloud shader
-    if (pointCloud && pointCloud.material.uniforms) {
+    if (pointCloud && pointCloud.material.uniforms && pointCloud.material.uniforms.time) {
         pointCloud.material.uniforms.time.value = elapsed;
     }
 

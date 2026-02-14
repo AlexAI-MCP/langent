@@ -33,6 +33,8 @@ class VectorStore:
         self.collection_name = collection_name
         self._embedding_model_name = embedding_model
         self._ef = None
+        self._coords_cache = None
+        self._cache_count = -1
 
         self.collection = self.client.get_or_create_collection(
             name=collection_name,
@@ -98,6 +100,8 @@ class VectorStore:
             self.collection.add(documents=b_docs, metadatas=b_metas, ids=b_ids)
             added += len(b_docs)
 
+        # Clear cache on new data
+        self._cache_count = -1
         return added
 
     def search(
@@ -134,6 +138,7 @@ class VectorStore:
             self.collection.delete(ids=ids)
         elif where:
             self.collection.delete(where=where)
+        self._cache_count = -1
 
     def count(self) -> int:
         return self.collection.count()
@@ -158,9 +163,13 @@ class VectorStore:
 
     def get_3d_positions(self, limit: int = 50000) -> List[Dict]:
         """
-        UMAP으로 고차원 임베딩을 3D 좌표로 변환합니다.
+        UMAP으로 고차원 임베딩을 3D 좌표로 변환합니다. (캐싱 지원)
         Each point: {id, x, y, z, metadata, document_preview}
         """
+        current_count = self.count()
+        if self._cache_count == current_count and self._coords_cache:
+            return self._coords_cache
+
         data = self.get_all_embeddings(limit=limit)
         if data["embeddings"] is None or len(data["embeddings"]) < 2:
             return []
@@ -190,7 +199,9 @@ class VectorStore:
         # Normalize to [-50, 50] range for Three.js scene
         coords_3d = (coords_3d - coords_3d.mean(axis=0)) / (coords_3d.std(axis=0) + 1e-8) * 30
 
-        return self._build_points(coords_3d, data)
+        self._coords_cache = self._build_points(coords_3d, data)
+        self._cache_count = current_count
+        return self._coords_cache
 
     def _build_points(self, coords, data) -> List[Dict]:
         points = []
