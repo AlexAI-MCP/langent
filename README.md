@@ -5,11 +5,12 @@
 
 **Langent** is a RAG (Retrieval-Augmented Generation) framework that transforms your local workspace into a 3D cosmic nebula of knowledge. It combines vector embeddings (ChromaDB) with knowledge graphs (Neo4j) to provide a deeply connected AI experience.
 
-![Langent Nebula Showcase](docs/IMG_6158.jpeg)(docs/nebula_full.png)
+![Langent Nebula Showcase](docs/IMG_6158.jpeg)
 
 ### 📺 Watch the Demo
 [![Watch the video](https://img.youtube.com/vi/8HLQO52VO5g/0.jpg)](https://youtu.be/8HLQO52VO5g)
 
+![Langent Nebula Showcase](docs/nebula_full.png)
 ---
 
 ## ✨ Key Features
@@ -140,5 +141,6 @@ This project is licensed under the Apache License 2.0.
 
 ---
 *Created with ❤️ by Alex AI*
+
 
 
