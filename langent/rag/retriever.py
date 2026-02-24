@@ -1,11 +1,15 @@
 """
-HybridRetriever — Vector + Graph combined search
-===================================================
+HybridRetriever v3 — Vector + Graph combined search
+=====================================================
 Merges ChromaDB semantic search with Neo4j graph traversal.
 """
+import logging
 from typing import List, Dict, Any, Optional
+
 from langent.store.vector import VectorStore
 from langent.store.graph import GraphStore
+
+logger = logging.getLogger(__name__)
 
 
 class HybridRetriever:
@@ -36,16 +40,12 @@ class HybridRetriever:
         2. (옵션) Graph DB에서 관련 엔티티 검색
         3. RRF로 결과 병합
         """
-        # 1. Vector search
         vector_results = self.vector.search(query, top_k=top_k * 2)
 
         if not use_graph or not self.graph:
             return vector_results[:top_k]
 
-        # 2. Graph search (keyword extraction → graph lookup)
         graph_context = self._graph_search(query)
-
-        # 3. Merge
         combined = self._rrf_merge(vector_results, graph_context, top_k)
         return combined
 
@@ -54,7 +54,6 @@ class HybridRetriever:
         if not self.graph:
             return []
 
-        # Simple keyword extraction (split by space, filter short words)
         keywords = [w for w in query.split() if len(w) >= 2]
 
         results = []
@@ -73,7 +72,8 @@ class HybridRetriever:
                         "relation": str(n.get("relation", "")),
                         "related": str(n.get("related", "")),
                     })
-            except Exception:
+            except Exception as e:
+                logger.debug("Graph search for '%s' failed: %s", kw, e)
                 continue
         return results
 
@@ -86,8 +86,7 @@ class HybridRetriever:
         """Reciprocal Rank Fusion으로 결과 병합"""
         k = 60  # RRF constant
 
-        scored = {}
-        # Vector results
+        scored: Dict[str, Dict] = {}
         for rank, vr in enumerate(vector_results):
             doc_id = vr["id"]
             rrf_score = self.vector_weight / (k + rank + 1)
@@ -97,12 +96,7 @@ class HybridRetriever:
                 "graph_context": [],
             }
 
-        # Graph context boost: if a vector result mentions a graph entity, boost it
         if graph_context:
-            context_str = " ".join(
-                f"{g['entity']} {g['relation']} {g['related']}"
-                for g in graph_context
-            )
             for doc_id, entry in scored.items():
                 doc_text = entry.get("document", "").lower()
                 for g in graph_context:
@@ -111,7 +105,6 @@ class HybridRetriever:
                         entry["rrf_score"] += self.graph_weight / k
                         entry["graph_context"].append(g)
 
-        # Sort by RRF score
         ranked = sorted(scored.values(), key=lambda x: x["rrf_score"], reverse=True)
         return ranked[:top_k]
 

@@ -1,7 +1,7 @@
 """
-Langent Brain v2 — Main Orchestrator
+Langent Brain v3 — Main Orchestrator
 ======================================
-Workspace → ChromaDB → 3D Nebula → MCP/API
+Workspace -> ChromaDB -> 3D Nebula -> MCP/API
 
 The central hub connecting all subsystems:
 - Workspace file watching & ingestion
@@ -10,6 +10,7 @@ The central hub connecting all subsystems:
 - RAG pipeline for intelligent retrieval
 - MCP/API for Antigravity/Claude Code integration
 """
+import logging
 from typing import Optional, List, Dict, Any
 from pathlib import Path
 
@@ -19,19 +20,19 @@ from langent.store.graph import GraphStore
 from langent.rag.ingest import DocumentIngestor
 from langent.rag.chunker import SmartChunker
 from langent.rag.retriever import HybridRetriever
-
-
 from langent.llm_proxy import get_llm
 from langent.agents.workflows import LangentWorkflows
 from langent.agents.delegation import SubAgentManager
 from langent.skills.loader import SkillLoader
 
+logger = logging.getLogger(__name__)
+
 
 class Langent:
     """
-    Langent v2 — 워크스페이스 기반 RAG Agentic Framework
+    Langent v3 — 워크스페이스 기반 RAG Agentic Framework
 
-    1. 워크스페이스 파일들을 스캔·수집
+    1. 워크스페이스 파일들을 스캔/수집
     2. ChromaDB에 벡터화하여 저장
     3. 시맨틱 검색 + 그래프 검색 하이브리드 RAG
     4. 3D 성운 시각화 데이터 제공
@@ -42,14 +43,17 @@ class Langent:
 
     def __init__(
         self,
-        workspace: str = None,
-        config_path: str = None,
+        workspace: Optional[str] = None,
+        config_path: Optional[str] = None,
         neo4j: bool = True,
         llm_mode: str = "fake",
         verbose: bool = True,
     ):
         self.config = LangentConfig(config_path)
         self.verbose = verbose
+
+        if verbose:
+            logging.basicConfig(level=logging.INFO, format="%(name)s | %(message)s")
 
         # Workspace
         ws = workspace or self.config.workspace.path
@@ -66,19 +70,7 @@ class Langent:
         )
 
         # 3. Graph Store (optional)
-        self.graph = None
-        if neo4j:
-            try:
-                self.graph = GraphStore(
-                    uri=self.config.graph.uri,
-                    user=self.config.graph.user,
-                    password=self.config.graph.password,
-                )
-                if not self.graph.test_connection():
-                    self._log("⚠ Neo4j unavailable, graph features disabled")
-                    self.graph = None
-            except Exception:
-                self.graph = None
+        self.graph = self._init_graph(neo4j)
 
         # 4. RAG Pipeline
         self.ingestor = DocumentIngestor(
@@ -100,7 +92,7 @@ class Langent:
         self.workflows = LangentWorkflows(
             llm=self.llm,
             retriever=self.retriever,
-            graph_store=self.graph
+            graph_store=self.graph,
         )
         self._rag_graph = self.workflows.build_rag_graph()
 
@@ -111,29 +103,46 @@ class Langent:
         )
         self.skills.load_all()
 
-        self._log(f"[Brain] Langent v2.0 initialized")
-        self._log(f"   Workspace: {self.workspace}")
-        self._log(f"   LLM Mode: {self.llm.mode}")
-        self._log(f"   Skills loaded: {len(self.skills.skills)}")
+        logger.info("Langent v3.0 initialized")
+        logger.info("  Workspace: %s", self.workspace)
+        logger.info("  LLM Mode: %s", self.llm.mode)
+        logger.info("  Skills loaded: %d", len(self.skills.skills))
+
+    def _init_graph(self, neo4j: bool) -> Optional[GraphStore]:
+        """Initialize graph store, returning None if unavailable."""
+        if not neo4j:
+            return None
+        try:
+            graph = GraphStore(
+                uri=self.config.graph.uri,
+                user=self.config.graph.user,
+                password=self.config.graph.password,
+            )
+            if not graph.test_connection():
+                logger.warning("Neo4j unavailable, graph features disabled")
+                return None
+            return graph
+        except Exception as e:
+            logger.warning("Neo4j init failed: %s", e)
+            return None
 
     # ─── Agent Chat ───────────────────────────────────
 
     def chat(self, question: str) -> Dict[str, Any]:
         """LangGraph RAG 워크플로우를 실행합니다."""
-        self._log(f"[Chat] Chat request: {question}")
+        logger.info("Chat request: %s", question[:80])
         initial_state = {
             "query": question,
             "steps": ["Initialized chat"],
-            "metadata": {}
+            "metadata": {},
         }
-        result = self._rag_graph.invoke(initial_state)
-        return result
+        return self._rag_graph.invoke(initial_state)
 
     # ─── Ingest ───────────────────────────────────────
 
-    def ingest(self, path: str = None) -> Dict[str, int]:
+    def ingest(self, path: Optional[str] = None) -> Dict[str, int]:
         """
-        워크스페이스 파일들을 수집 → 청킹 → 벡터 DB 저장
+        워크스페이스 파일들을 수집 -> 청킹 -> 벡터 DB 저장
 
         Returns:
             {"files_scanned", "chunks_created", "vectors_added"}
@@ -146,24 +155,21 @@ class Langent:
                 ignore=self.config.workspace.ignore,
             )
 
-        self._log("📥 Ingesting workspace files...")
+        logger.info("Ingesting workspace files...")
 
-        # 1. Scan & extract
         documents = ingestor.ingest_all()
-        self._log(f"   Found {len(documents)} files")
+        logger.info("Found %d files", len(documents))
 
         if not documents:
             return {"files_scanned": 0, "chunks_created": 0, "vectors_added": 0}
 
-        # 2. Chunk
         chunks = self.chunker.chunk_documents(documents)
-        self._log(f"   Created {len(chunks)} chunks")
+        logger.info("Created %d chunks", len(chunks))
 
-        # 3. Store in vector DB
         texts = [c["text"] for c in chunks]
         metas = [c["metadata"] for c in chunks]
         added = self.vector.add_documents(texts, metas)
-        self._log(f"   Added {added} new vectors (total: {self.vector.count()})")
+        logger.info("Added %d new vectors (total: %d)", added, self.vector.count())
 
         return {
             "files_scanned": len(documents),
@@ -195,17 +201,16 @@ class Langent:
     def get_nebula_data(self, limit: int = 50000) -> Dict[str, Any]:
         """
         3D 성운 시각화용 데이터를 반환합니다.
-        Returns: {points: [...], graph: {nodes, edges}, cross_links, stats}
+        Returns: {points, graph, cross_links, stats}
         """
         points = self.vector.get_3d_positions(limit=limit)
 
-        graph_data = {"nodes": [], "edges": []}
-        cross_links = []
-        
+        graph_data: Dict[str, Any] = {"nodes": [], "edges": []}
+        cross_links: List[Dict] = []
+
         if self.graph:
             try:
                 graph_data = self.graph.export_for_viz(limit=1000)
-                # Fetch cross-links (Chunk to Entity)
                 links_raw = self.graph.run_cypher(
                     "MATCH (c:Chunk)-[:MENTIONS]->(e) "
                     "RETURN c.id AS chunk_id, id(e) AS node_id LIMIT 2000"
@@ -214,8 +219,8 @@ class Langent:
                     {"source": str(l["chunk_id"]), "target": str(l["node_id"])}
                     for l in links_raw
                 ]
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Graph viz export failed: %s", e)
 
         return {
             "points": points,
@@ -235,7 +240,7 @@ class Langent:
 
     # ─── Graph Operations ─────────────────────────────
 
-    def graph_query(self, cypher: str, params: Dict = None) -> List[Dict]:
+    def graph_query(self, cypher: str, params: Optional[Dict] = None) -> List[Dict]:
         """Neo4j Cypher 쿼리 실행"""
         if not self.graph:
             return [{"error": "Neo4j not connected"}]
@@ -248,44 +253,37 @@ class Langent:
         return self.graph.get_schema()
 
     def auto_link(self) -> Dict[str, int]:
-        """
-        벡터 청크와 그래프 노드를 자동으로 연결합니다.
-        1. 그래프에서 이름(name) 속성이 있는 모든 노드 추출
-        2. 벡터 청크 텍스트에서 해당 이름이 포함되어 있는지 검색
-        3. 일치할 경우 Neo4j에 (:Chunk)-[:MENTIONS]->(Node) 관계 생성
-        """
+        """벡터 청크와 그래프 노드를 자동으로 연결합니다."""
         if not self.graph:
             return {"error": "Neo4j not connected"}
 
-        self._log("🔗 Auto-linking vector chunks to graph entities...")
-        
-        # 1. Get entities from graph
+        logger.info("Auto-linking vector chunks to graph entities...")
+
         entities = self.graph.run_cypher(
-            "MATCH (n) WHERE n.name IS NOT NULL RETURN id(n) AS id, n.name AS name, labels(n)[0] AS label"
+            "MATCH (n) WHERE n.name IS NOT NULL "
+            "RETURN id(n) AS id, n.name AS name, labels(n)[0] AS label"
         )
         entity_map = {e["name"].lower(): e for e in entities if e["name"]}
-        self._log(f"   Found {len(entity_map)} unique entities in graph")
+        logger.info("Found %d unique entities in graph", len(entity_map))
 
-        # 2. Get chunks from vector store
         data = self.vector.get_all_embeddings(limit=10000)
         chunks = []
         for i in range(len(data["ids"])):
             chunks.append({
                 "id": data["ids"][i],
-                "text": data["documents"][i].lower()
+                "text": data["documents"][i].lower(),
             })
 
-        # 3. Match and link
         linked_count = 0
         for chunk in chunks:
             mentions = []
             for name, entity in entity_map.items():
-                if len(name) < 2: continue
+                if len(name) < 2:
+                    continue
                 if name in chunk["text"]:
                     mentions.append(entity["id"])
-            
+
             if mentions:
-                # Create Chunk node and relationships
                 self.graph.run_cypher(
                     "MERGE (c:Chunk {id: $cid})", {"cid": chunk["id"]}
                 )
@@ -293,13 +291,13 @@ class Langent:
                     self.graph.run_cypher(
                         "MATCH (c:Chunk {id: $cid}), (e) WHERE id(e) = $eid "
                         "MERGE (c)-[:MENTIONS]->(e)",
-                        {"cid": chunk["id"], "eid": eid}
+                        {"cid": chunk["id"], "eid": eid},
                     )
                 linked_count += 1
                 if linked_count % 100 == 0:
-                    self._log(f"   Linked {linked_count} chunks...")
+                    logger.info("Linked %d chunks...", linked_count)
 
-        self._log(f"✅ Linking complete: {linked_count} chunks linked")
+        logger.info("Linking complete: %d chunks linked", linked_count)
         return {"chunks_linked": linked_count}
 
     # ─── Status ───────────────────────────────────────
@@ -307,6 +305,7 @@ class Langent:
     def status(self) -> Dict[str, Any]:
         """시스템 상태를 반환합니다."""
         return {
+            "version": "3.0.0",
             "workspace": str(self.workspace),
             "vector_count": self.vector.count(),
             "graph_connected": self.graph is not None,
@@ -314,17 +313,10 @@ class Langent:
             "collections": self.vector.list_collections(),
         }
 
-    def _log(self, msg: str):
-        if self.verbose:
-            print(msg)
-
     def close(self):
         if self.graph:
             self.graph.close()
 
     def __repr__(self):
-        return (
-            f"<Langent(workspace='{self.workspace}', "
-            f"vectors={self.vector.count()}, "
-            f"graph={'✓' if self.graph else '✗'})>"
-        )
+        g = "connected" if self.graph else "disabled"
+        return f"<Langent v3(workspace='{self.workspace}', vectors={self.vector.count()}, graph={g})>"

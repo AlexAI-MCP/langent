@@ -1,12 +1,15 @@
 """
-Langent Config — Settings from .env + YAML
+Langent Config v3 — Settings from .env + YAML
 """
-import os
+import logging
 from pathlib import Path
 from typing import Optional, List
-from pydantic import BaseModel, Field
+
+from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 import yaml
+
+logger = logging.getLogger(__name__)
 
 
 class VectorStoreConfig(BaseModel):
@@ -20,7 +23,7 @@ class GraphStoreConfig(BaseModel):
     provider: str = "neo4j"
     uri: str = "bolt://localhost:7687"
     user: str = "neo4j"
-    password: str = "yw02280228"
+    password: str = "password"
 
 
 class RAGConfig(BaseModel):
@@ -54,7 +57,8 @@ class LangentSettings(BaseSettings):
     embedding_model: str = "all-MiniLM-L6-v2"
     api_host: str = "0.0.0.0"
     api_port: int = 8000
-    llm_mode: str = "fake"  # Default to fake for safety
+    api_key: str = ""
+    llm_mode: str = "fake"
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8", "extra": "ignore"}
 
@@ -64,7 +68,7 @@ class LangentConfig:
 
     def __init__(self, config_path: Optional[str] = None):
         self.env = LangentSettings()
-        self._yaml = {}
+        self._yaml: dict = {}
         if config_path:
             self._load_yaml(config_path)
         else:
@@ -86,5 +90,8 @@ class LangentConfig:
         self.visualizer = VisualizerConfig(**self._yaml.get("visualizer", {}))
 
     def _load_yaml(self, path: str):
-        with open(path, "r", encoding="utf-8") as f:
-            self._yaml = yaml.safe_load(f) or {}
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                self._yaml = yaml.safe_load(f) or {}
+        except Exception as e:
+            logger.warning("Failed to load config YAML %s: %s", path, e)
