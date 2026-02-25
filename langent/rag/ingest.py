@@ -1,12 +1,15 @@
 """
-DocumentIngestor — Multi-format file ingestion
-================================================
+DocumentIngestor v3 — Multi-format file ingestion
+===================================================
 Watches workspace folder, extracts text from PDF/MD/TXT/CSV,
-feeds into chunker → vector store.
+feeds into chunker -> vector store.
 """
+import logging
 import os
 from pathlib import Path
 from typing import List, Dict, Any, Optional
+
+logger = logging.getLogger(__name__)
 
 
 class DocumentIngestor:
@@ -17,8 +20,8 @@ class DocumentIngestor:
 
     SUPPORTED = {".md", ".txt", ".pdf", ".csv", ".json", ".yaml", ".yml"}
 
-    def __init__(self, workspace_path: str, extensions: List[str] = None,
-                 ignore: List[str] = None):
+    def __init__(self, workspace_path: str, extensions: Optional[List[str]] = None,
+                 ignore: Optional[List[str]] = None):
         self.workspace = Path(workspace_path)
         self.extensions = set(extensions) if extensions else self.SUPPORTED
         self.ignore = set(ignore) if ignore else {
@@ -29,7 +32,6 @@ class DocumentIngestor:
         """워크스페이스에서 지원 파일 목록을 스캔합니다."""
         files = []
         for root, dirs, filenames in os.walk(self.workspace):
-            # Skip ignored directories
             dirs[:] = [d for d in dirs if d not in self.ignore]
             for fname in filenames:
                 fpath = Path(root) / fname
@@ -49,7 +51,7 @@ class DocumentIngestor:
             elif suffix == ".csv":
                 return self._read_csv(file_path)
         except Exception as e:
-            print(f"  [Warning] Error extracting {file_path.name}: {e}")
+            logger.warning("Error extracting %s: %s", file_path.name, e)
         return None
 
     def ingest_all(self) -> List[Dict[str, Any]]:
@@ -93,7 +95,7 @@ class DocumentIngestor:
             pages = [page.extract_text() or "" for page in reader.pages]
             return "\n\n".join(pages)
         except ImportError:
-            print("  ⚠ pypdf not installed. Run: pip install pypdf")
+            logger.warning("pypdf not installed. Run: pip install pypdf")
             return ""
 
     def _read_csv(self, path: Path) -> str:
@@ -106,6 +108,6 @@ class DocumentIngestor:
                     if i > 200:
                         break
                     rows.append(" | ".join(row))
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("CSV read failed for %s: %s", path.name, e)
         return "\n".join(rows)

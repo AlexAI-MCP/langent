@@ -1,9 +1,27 @@
 """
-GraphStore — Neo4j Adapter for Langent
-========================================
+GraphStore v3 — Neo4j Adapter for Langent
+===========================================
 Knowledge graph storage, Cypher execution, and 3D viz export.
+Includes label/key sanitization to prevent Cypher injection.
 """
+import logging
+import re
 from typing import List, Dict, Any, Optional
+
+logger = logging.getLogger(__name__)
+
+# Allowed pattern for Neo4j labels and property keys
+_SAFE_IDENTIFIER = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+
+
+def _validate_identifier(value: str, kind: str = "identifier") -> str:
+    """Validate a Cypher identifier (label or property key) against injection."""
+    if not _SAFE_IDENTIFIER.match(value):
+        raise ValueError(
+            f"Invalid Cypher {kind}: {value!r}. "
+            f"Only alphanumeric characters and underscores are allowed."
+        )
+    return value
 
 
 class GraphStore:
@@ -17,7 +35,7 @@ class GraphStore:
         self,
         uri: str = "bolt://localhost:7687",
         user: str = "neo4j",
-        password: str = "yw02280228",
+        password: str = "password",
     ):
         self.uri = uri
         self.user = user
@@ -40,12 +58,12 @@ class GraphStore:
                 session.run("RETURN 1")
             return True
         except Exception as e:
-            print(f"Neo4j connection failed: {e}")
+            logger.warning("Neo4j connection failed: %s", e)
             return False
 
     # ─── Cypher ───────────────────────────────────────
 
-    def run_cypher(self, query: str, params: Dict = None) -> List[Dict]:
+    def run_cypher(self, query: str, params: Optional[Dict] = None) -> List[Dict]:
         """Cypher 쿼리를 실행합니다."""
         with self.driver.session() as session:
             result = session.run(query, parameters=params or {})
@@ -72,6 +90,9 @@ class GraphStore:
         self, label: str, properties: Dict[str, Any]
     ) -> Dict:
         """엔티티(노드)를 생성합니다."""
+        label = _validate_identifier(label, "label")
+        for k in properties:
+            _validate_identifier(k, "property key")
         props_str = ", ".join(f"{k}: ${k}" for k in properties)
         query = f"CREATE (n:{label} {{{props_str}}}) RETURN n"
         result = self.run_cypher(query, properties)
@@ -81,6 +102,10 @@ class GraphStore:
         self, label: str, key: str, properties: Dict[str, Any]
     ) -> Dict:
         """엔티티를 MERGE (있으면 업데이트, 없으면 생성)"""
+        label = _validate_identifier(label, "label")
+        key = _validate_identifier(key, "property key")
+        for k in properties:
+            _validate_identifier(k, "property key")
         set_parts = ", ".join(f"n.{k} = ${k}" for k in properties if k != key)
         query = f"MERGE (n:{label} {{{key}: ${key}}})"
         if set_parts:
@@ -94,12 +119,20 @@ class GraphStore:
         from_label: str, from_key: str, from_value: str,
         rel_type: str,
         to_label: str, to_key: str, to_value: str,
-        properties: Dict = None,
+        properties: Optional[Dict] = None,
     ) -> Dict:
         """두 노드 간 관계를 생성합니다."""
+        from_label = _validate_identifier(from_label, "label")
+        to_label = _validate_identifier(to_label, "label")
+        from_key = _validate_identifier(from_key, "property key")
+        to_key = _validate_identifier(to_key, "property key")
+        rel_type = _validate_identifier(rel_type, "relationship type")
+
         props = ""
-        params = {"from_val": from_value, "to_val": to_value}
+        params: Dict[str, Any] = {"from_val": from_value, "to_val": to_value}
         if properties:
+            for k in properties:
+                _validate_identifier(k, "property key")
             props = " {" + ", ".join(f"{k}: ${k}" for k in properties) + "}"
             params.update(properties)
 
@@ -112,13 +145,16 @@ class GraphStore:
         return result[0] if result else {}
 
     def search_nodes(
-        self, label: str = None, where: str = "", params: Dict = None, limit: int = 50
+        self, label: Optional[str] = None, where: str = "", params: Optional[Dict] = None, limit: int = 50
     ) -> List[Dict]:
         """노드를 검색합니다."""
-        label_str = f":{label}" if label else ""
+        label_str = ""
+        if label:
+            label = _validate_identifier(label, "label")
+            label_str = f":{label}"
         where_str = f" WHERE {where}" if where else ""
-        query = f"MATCH (n{label_str}){where_str} RETURN n LIMIT {limit}"
-        return self.run_cypher(query, params)
+        query = f"MATCH (n{label_str}){where_str} RETURN n LIMIT $limit"
+        return self.run_cypher(query, {**(params or {}), "limit": limit})
 
     # ─── 3D Visualization Export ──────────────────────
 
@@ -127,7 +163,6 @@ class GraphStore:
         3D 시각화용 노드/엣지 데이터를 내보냅니다.
         Returns: {nodes: [...], edges: [...]}
         """
-        # Nodes
         nodes_raw = self.run_cypher(
             "MATCH (n) RETURN id(n) AS id, labels(n) AS labels, "
             "properties(n) AS props LIMIT $limit",
@@ -144,7 +179,6 @@ class GraphStore:
                 "properties": {k: str(v) for k, v in n["props"].items()},
             })
 
-        # Edges
         edges_raw = self.run_cypher(
             "MATCH (a)-[r]->(b) RETURN id(a) AS src, id(b) AS dst, "
             "type(r) AS type LIMIT $limit",

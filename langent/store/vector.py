@@ -1,16 +1,17 @@
 """
-VectorStore — ChromaDB Adapter for Langent
-============================================
-Workspace files → embeddings → ChromaDB → 3D visualization data
+VectorStore v3 — ChromaDB Adapter for Langent
+===============================================
+Workspace files -> embeddings -> ChromaDB -> 3D visualization data
 """
-import os
 import hashlib
 import json
+import logging
 from typing import List, Dict, Any, Optional
 from pathlib import Path
 
 import chromadb
-from chromadb.config import Settings
+
+logger = logging.getLogger(__name__)
 
 
 class VectorStore:
@@ -35,7 +36,7 @@ class VectorStore:
         self._embedding_model_name = embedding_model
         self._ef = None
         self._cache_count = -1
-        self._coords_cache = []
+        self._coords_cache: List[Dict] = []
         self._cache_file = self.db_path.parent / "nebula_cache.json"
 
         self.collection = self.client.get_or_create_collection(
@@ -57,8 +58,8 @@ class VectorStore:
     def add_documents(
         self,
         documents: List[str],
-        metadatas: List[Dict[str, Any]] = None,
-        ids: List[str] = None,
+        metadatas: Optional[List[Dict[str, Any]]] = None,
+        ids: Optional[List[str]] = None,
     ) -> int:
         """문서 청크들을 벡터화하여 저장합니다."""
         if not documents:
@@ -76,12 +77,12 @@ class VectorStore:
             metadatas = [{}] * len(documents)
 
         # Remove duplicates
-        existing = set()
+        existing: set = set()
         try:
             result = self.collection.get(ids=ids)
             existing = set(result["ids"]) if result["ids"] else set()
-        except Exception:
-            pass
+        except Exception as e:
+            logger.debug("Duplicate check skipped: %s", e)
 
         new_docs, new_metas, new_ids = [], [], []
         for doc, meta, doc_id in zip(documents, metadatas, ids):
@@ -102,7 +103,6 @@ class VectorStore:
             self.collection.add(documents=b_docs, metadatas=b_metas, ids=b_ids)
             added += len(b_docs)
 
-        # Clear cache on new data
         self._cache_count = -1
         return added
 
@@ -110,10 +110,10 @@ class VectorStore:
         self,
         query: str,
         top_k: int = 5,
-        where: Dict = None,
+        where: Optional[Dict] = None,
     ) -> List[Dict[str, Any]]:
         """시맨틱 유사도 검색을 수행합니다."""
-        kwargs = {
+        kwargs: Dict[str, Any] = {
             "query_texts": [query],
             "n_results": top_k,
             "include": ["documents", "metadatas", "distances"],
@@ -134,7 +134,7 @@ class VectorStore:
             })
         return output
 
-    def delete(self, ids: List[str] = None, where: Dict = None):
+    def delete(self, ids: Optional[List[str]] = None, where: Optional[Dict] = None):
         """문서를 삭제합니다."""
         if ids:
             self.collection.delete(ids=ids)
@@ -169,7 +169,7 @@ class VectorStore:
         Each point: {id, x, y, z, metadata, document_preview}
         """
         current_count = self.count()
-        
+
         # 1. Try In-memory cache
         if self._cache_count == current_count and self._coords_cache:
             return self._coords_cache
@@ -183,8 +183,8 @@ class VectorStore:
                         self._coords_cache = cached.get("points", [])
                         self._cache_count = current_count
                         return self._coords_cache
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug("Cache read failed: %s", e)
 
         # 3. Recalculate
         data = self.get_all_embeddings(limit=limit)
@@ -195,7 +195,6 @@ class VectorStore:
         try:
             import umap
         except ImportError:
-            # Fallback: random projection
             embeddings = np.array(data["embeddings"])
             rng = np.random.RandomState(42)
             proj = rng.randn(embeddings.shape[1], 3)
@@ -213,20 +212,19 @@ class VectorStore:
             random_state=42,
         )
         coords_3d = reducer.fit_transform(embeddings)
-        # Normalize to [-50, 50] range for Three.js scene
         coords_3d = (coords_3d - coords_3d.mean(axis=0)) / (coords_3d.std(axis=0) + 1e-8) * 30
 
         self._coords_cache = self._build_points(coords_3d, data)
         self._cache_count = current_count
-        
+
         # 4. Save to Disk
         try:
             self._cache_file.parent.mkdir(parents=True, exist_ok=True)
             with open(self._cache_file, "w") as f:
                 json.dump({"count": current_count, "points": self._coords_cache}, f)
-        except Exception:
-            pass
-            
+        except Exception as e:
+            logger.debug("Cache write failed: %s", e)
+
         return self._coords_cache
 
     def _build_points(self, coords, data) -> List[Dict]:

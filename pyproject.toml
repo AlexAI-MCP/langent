@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "langent"
-version = "2.0.0"
-description = "RAG Agentic Framework — Workspace → Vector DB → 3D Nebula Visualization → MCP/API"
+version = "3.0.0"
+description = "RAG Agentic Framework — Workspace -> Vector DB -> 3D Nebula Visualization -> MCP/API"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.10"
@@ -42,13 +42,39 @@ dependencies = [
     # Utilities
     "numpy>=1.24.0",
     "watchdog>=3.0.0",
+    # HTTP client (for ollama proxy)
+    "requests>=2.28.0",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=7.0.0", "pytest-asyncio>=0.21.0"]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.24.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+]
 
 [project.scripts]
 langent = "langent.server.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["langent"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false

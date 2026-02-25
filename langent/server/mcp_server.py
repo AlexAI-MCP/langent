@@ -1,6 +1,6 @@
 """
-Langent MCP Server — Tool Provider for Antigravity/Claude Code
-================================================================
+Langent MCP Server v3 — Tool Provider for Antigravity/Claude Code
+===================================================================
 Exposes Langent as MCP tools. No API key needed —
 Antigravity's built-in LLM handles reasoning.
 
@@ -8,37 +8,35 @@ Register in mcp_config.json:
 {
   "langent": {
     "command": "python",
-    "args": ["-m", "server.mcp_server"],
-    "cwd": "c:\\Users\\daewooenc\\workspace\\Ontology\\Langent"
+    "args": ["-m", "langent.server.mcp_server"],
+    "env": {
+      "LANGENT_WORKSPACE": "/path/to/your/workspace"
+    }
   }
 }
 """
 import json
-import sys
 import os
 import asyncio
-
-# Add parent to path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import logging
 
 from mcp.server.models import InitializationOptions
 import mcp.types as types
 from mcp.server import NotificationOptions, Server
 from mcp.server.stdio import stdio_server
 
+logger = logging.getLogger(__name__)
+
 server = Server("langent")
 
-# Lazy-init Langent instance
 _langent = None
+
 
 def get_langent():
     global _langent
     if _langent is None:
         from langent.brain import Langent
-        workspace = os.environ.get(
-            "LANGENT_WORKSPACE",
-            r"c:\Users\daewooenc\workspace\Ontology"
-        )
+        workspace = os.environ.get("LANGENT_WORKSPACE", ".")
         _langent = Langent(workspace=workspace, verbose=False)
     return _langent
 
@@ -54,8 +52,8 @@ async def handle_list_tools() -> list[types.Tool]:
                 "type": "object",
                 "properties": {
                     "path": {"type": "string", "description": "수집할 경로 (선택)"}
-                }
-            }
+                },
+            },
         ),
         types.Tool(
             name="langent_query",
@@ -64,10 +62,10 @@ async def handle_list_tools() -> list[types.Tool]:
                 "type": "object",
                 "properties": {
                     "query": {"type": "string", "description": "검색 쿼리"},
-                    "top_k": {"type": "number", "default": 5}
+                    "top_k": {"type": "number", "default": 5},
                 },
-                "required": ["query"]
-            }
+                "required": ["query"],
+            },
         ),
         types.Tool(
             name="langent_chat",
@@ -77,8 +75,8 @@ async def handle_list_tools() -> list[types.Tool]:
                 "properties": {
                     "message": {"type": "string", "description": "사용자 메시지"}
                 },
-                "required": ["message"]
-            }
+                "required": ["message"],
+            },
         ),
         types.Tool(
             name="langent_graph",
@@ -88,13 +86,13 @@ async def handle_list_tools() -> list[types.Tool]:
                 "properties": {
                     "cypher": {"type": "string", "description": "Cypher 쿼리"}
                 },
-                "required": ["cypher"]
-            }
+                "required": ["cypher"],
+            },
         ),
         types.Tool(
             name="langent_status",
             description="Langent 프레임워크의 현재 상태(벡터 수, 그래프 연결 등)를 확인합니다.",
-            inputSchema={"type": "object", "properties": {}}
+            inputSchema={"type": "object", "properties": {}},
         ),
         types.Tool(
             name="langent_nebula",
@@ -103,8 +101,8 @@ async def handle_list_tools() -> list[types.Tool]:
                 "type": "object",
                 "properties": {
                     "query": {"type": "string", "description": "하이라이트할 검색어 (선택)"}
-                }
-            }
+                },
+            },
         ),
     ]
 
@@ -115,26 +113,27 @@ async def handle_call_tool(
 ) -> list[types.TextContent | types.ImageContent | types.EmbeddedResource]:
     """도구 호출을 처리합니다."""
     agent = get_langent()
-    
+    arguments = arguments or {}
+
     if name == "langent_ingest":
         path = arguments.get("path")
         result = agent.ingest(path=path)
         return [types.TextContent(type="text", text=json.dumps(result, indent=2, ensure_ascii=False))]
 
     elif name == "langent_query":
-        query = arguments.get("query")
+        query = arguments.get("query", "")
         top_k = int(arguments.get("top_k", 5))
         result = agent.query(query, top_k=top_k)
         return [types.TextContent(type="text", text=json.dumps(result, indent=2, ensure_ascii=False))]
 
     elif name == "langent_chat":
-        message = arguments.get("message")
+        message = arguments.get("message", "")
         result = agent.chat(message)
         return [types.TextContent(type="text", text=json.dumps(result, indent=2, ensure_ascii=False))]
 
     elif name == "langent_graph":
-        cypher = arguments.get("cypher")
-        result = agent.graph.query(cypher) if agent.graph else "Neo4j not connected"
+        cypher = arguments.get("cypher", "")
+        result = agent.graph_query(cypher)
         return [types.TextContent(type="text", text=json.dumps(result, indent=2, ensure_ascii=False))]
 
     elif name == "langent_status":
@@ -149,7 +148,7 @@ async def handle_call_tool(
             result = agent.get_nebula_data()
             result["url"] = "http://localhost:8000"
         return [types.TextContent(type="text", text=json.dumps(result, indent=2, ensure_ascii=False))]
-    
+
     else:
         raise ValueError(f"Unknown tool: {name}")
 
@@ -161,7 +160,7 @@ async def main():
             write,
             InitializationOptions(
                 server_name="langent",
-                server_version="2.0.0",
+                server_version="3.0.0",
                 capabilities=server.get_capabilities(
                     notification_options=NotificationOptions(),
                     experimental_capabilities={},
